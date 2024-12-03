@@ -20,6 +20,8 @@ export class AppComponent {
     this.add('1\n2,3,4\n5')
     // case 4: Support different delimiters:
     this.add('//;\n1;2')
+    // case 5: Calling add with a negative number will throw an exception: "negative numbers not allowed <negative_number>".
+    this.add('-1,-2,3,4,-5,-7');
   }
   add(inputValue:string){
     if(!inputValue){
@@ -33,6 +35,10 @@ export class AppComponent {
         inputValue = inputValue.split('\n').slice(1).join('\n');
     }
     let numArray = inputValue.split(new RegExp(`[${delimiters.join('')}]`));
+    let negatives = numArray.filter(n => parseInt(n) < 0);
+    if (negatives.length > 0) {
+        throw new Error(`Negatives not allowed: ${negatives.join(' ')}`);
+    }
     return  numArray.map(n => parseInt(n)).reduce((sum, n) => sum + n, 0);
   }
 }
