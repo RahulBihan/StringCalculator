@@ -18,12 +18,20 @@ export class AppComponent {
     this.add('1,2,3,4')
     // case 3 : Allow the add method to handle new lines between numbers (instead of commas). ("1\n2,3" should return 6)
     this.add('1\n2,3,4\n5')
+    // case 4: Support different delimiters:
+    this.add('//;\n1;2')
   }
   add(inputValue:string){
     if(!inputValue){
       return 0;
     }
     const delimiters = [',', '\n'];
+    let customDelimiterMatch = inputValue.match(/^\/\/(.+)\n/);
+    if (customDelimiterMatch) {
+        let customDelimiter = customDelimiterMatch[1];
+        delimiters.push(customDelimiter);
+        inputValue = inputValue.split('\n').slice(1).join('\n');
+    }
     let numArray = inputValue.split(new RegExp(`[${delimiters.join('')}]`));
     return  numArray.map(n => parseInt(n)).reduce((sum, n) => sum + n, 0);
   }
