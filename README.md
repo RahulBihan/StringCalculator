@@ -1,0 +1,2 @@
+# StringCalculator
+Incubyte TDD Assessment
