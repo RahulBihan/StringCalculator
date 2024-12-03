@@ -14,13 +14,15 @@ export class AppComponent {
     // case 1 : using a function with empty strings
     this.add('');
     this.add("");
+    // case 2 : Allow the add method to handle any amount of numbers.
+    this.add('1,2,3,4')
   }
   add(inputValue:string){
-    if(inputValue === '' || inputValue === ""){
-      console.log('sum :' , this.sum)
-      return this.sum;
+    if(!inputValue){
+      return 0;
     }
-    return this.sum;
+    let numArray = inputValue.split(',');
+    return  numArray.map(n => parseInt(n)).reduce((sum, n) => sum + n, 0);
   }
 }
 
